@@ -1,17 +1,26 @@
 import { Input } from "postcss";
 import { useEffect, useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import Country from "./Country";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 export default function App() {
   const [fact, setFact] = useState({});
   const [numbers, setNumber] = useState(0);
   const [countries, setcountries] = useState([]);
-  const [colors, setColors] = useState([
-    "rdeča",
-    "rumena",
-    "modra",
-    "zelena",
-    "oranžna",
-  ]);
+  const [region, setRegion] = useState("");
 
   async function getRandomFact() {
     const response = await fetch("http://numbersapi.com/random?json");
@@ -33,14 +42,33 @@ export default function App() {
 
   return (
     <>
-      {countries
-        .filter((country) => country.region == "Europe")
-        .map((country) => (
-          <p>{country.name.common}</p>
-        ))}
-      {colors.map((color) => (
-        <p>{color}</p>
-      ))}
+      <h1>Države</h1>
+      <Select onValueChange={(value) => setRegion(value)}>
+        <SelectTrigger className="w-[260px]">
+          <SelectValue placeholder="Region" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="Asia">Asia</SelectItem>
+          <SelectItem value="Europe">Europe</SelectItem>
+          <SelectItem value="Americas">Americas</SelectItem>
+          <SelectItem value="Africa">Afrika</SelectItem>
+          <SelectItem value="Oceania">Oceania</SelectItem>
+        </SelectContent>
+      </Select>
+
+      <Carousel>
+        <CarouselContent>
+          {countries
+            .filter((country) => country.region == region)
+            .map((country) => (
+              <CarouselItem className="basis-1/3">
+                <Country data={country}></Country>
+              </CarouselItem>
+            ))}
+        </CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
     </>
   );
 }
