@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 
 export default function Country(props) {
-  const { flag, name } = props.data;
+  const { flag, name, flags } = props.data;
   return (
     <>
       <Card>
@@ -22,6 +22,9 @@ export default function Country(props) {
         <CardFooter>
           <p>{flag}</p>
         </CardFooter>
+        <div>
+          <img src={flags.png}></img>
+        </div>
       </Card>
     </>
   );
